@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}My registrations · College Event Portal{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h3 class="mb-0">My registrations</h3>
+  <a class="btn btn-outline-primary" href="{% url 'events:event_list' %}"><i class="bi bi-plus-circle"></i> Register more</a>
+</div>
+
+<div class="card shadow-sm border-0">
+  <div class="table-responsive">
+    <table class="table mb-0 align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Event</th>
+          <th>Venue</th>
+          <th>Deadline</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in registrations %}
+          <tr>
+            <td class="fw-semibold">{{ r.event.title }}</td>
+            <td>{{ r.event.venue }}</td>
+            <td class="text-muted small">{{ r.event.registration_deadline }}</td>
+            <td>
+              <span class="badge {% if r.status == 'COMPLETED' %}bg-success{% else %}bg-warning{% endif %}">{{ r.get_status_display }}</span>
+            </td>
+            <td class="text-end">
+              <a class="btn btn-sm btn-outline-primary" href="{% url 'events:event_detail' r.event.id %}">Open</a>
+              {% if r.status == 'COMPLETED' %}
+                <a class="btn btn-sm btn-success ms-2" href="{% url 'events:certificate' r.event.id %}">Certificate</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="text-center py-4 text-muted">No registrations yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Attendance · {{ event.title }}{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+  <div>
+    <h3 class="mb-0">Attendance</h3>
+    <div class="text-muted small">{{ event.title }}</div>
+  </div>
+  <a class="btn btn-outline-primary" href="{% url 'events:event_detail' event.id %}">Back to event</a>
+</div>
+
+<div class="card shadow-sm border-0">
+  <div class="card-body p-4">
+    <form method="post">
+      {% csrf_token %}
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Present</th>
+              <th>Student</th>
+              <th>Email</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in registrations %}
+              <tr>
+                <td style="width: 90px;">
+                  <input class="form-check-input" type="checkbox" name="present" value="{{ r.student.id }}"
+                    {% if r.student.id in already %}checked disabled{% endif %}>
+                </td>
+                <td class="fw-semibold">{{ r.student.username }}</td>
+                <td class="text-muted small">{{ r.student.email }}</td>
+                <td>
+                  {% if r.student.id in already %}
+                    <span class="badge text-bg-success">Marked</span>
+                  {% else %}
+                    <span class="badge text-bg-secondary">Not marked</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="4" class="text-center py-4 text-muted">No registrations yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <button class="btn btn-primary"><i class="bi bi-check2-circle"></i> Save attendance</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Certificate{% endblock %}
+{% block content %}
+<div class="certificate-page py-5">
+  <div class="certificate-container glass-card shadow-lg w-100">
+    <div class="certificate-header text-center mb-5">
+      <h1>Certificate Dashboard</h1>
+      <p class="text-muted mt-3">Review certificate eligibility for your completed events.</p>
+    </div>
+
+    {% if registrations %}
+      <div class="registration-list row g-4">
+        {% for reg in registrations %}
+          <div class="col-12">
+            <div class="card card-panel p-4 d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+              <div>
+                <div class="text-uppercase text-secondary small mb-2">{{ reg.event.title }}</div>
+                <div class="h5 mb-1">{{ reg.event.venue }}</div>
+                <div class="text-muted small">Registered on {{ reg.created_at|date:"M d, Y" }}</div>
+              </div>
+
+              <div class="text-end">
+                {% if reg.status == 'COMPLETED' %}
+                  <span class="badge bg-success mb-3">Completed</span>
+                  <div>
+                    <a class="btn btn-primary btn-sm" href="{% url 'events:certificate' reg.event.id %}">
+                      <i class="bi bi-download"></i> Download Certificate
+                    </a>
+                  </div>
+                {% else %}
+                  <span class="badge bg-warning text-dark mb-3">Pending Approval</span>
+                  <p class="mb-0 text-muted">Not eligible yet. Waiting for admin approval.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-center py-5">
+        <h2>No registrations found</h2>
+        <p class="text-muted">Register for an event and wait for admin completion to get your certificate.</p>
+        <a class="btn btn-primary" href="{% url 'events:event_list' %}">Browse Events</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+.certificate-page { min-height: calc(100vh - 160px); display: flex; align-items: center; justify-content: center; padding: 3rem 1rem; }
+.certificate-container { width: min(1100px, 100%); border-radius: 36px; padding: 2rem; }
+.certificate-header h1 { font-size: clamp(2.8rem, 5vw, 3.6rem); margin-bottom: 0.5rem; background: linear-gradient(135deg, #8ae8ff, #9b78ff 55%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.certificate-header p { color: rgba(248, 251, 255, 0.74); }
+.card-panel { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 28px; }
+.badge.bg-success { background-color: #3bc77a !important; }
+.badge.bg-warning { background-color: #f0c14b !important; color: #111; }
+@media (max-width: 768px) { .certificate-container { padding: 1.5rem; } }
+</style>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Certificate Preview · {{ event.title }}{% endblock %}
+{% block content %}
+<div class="certificate-page py-5">
+  <div class="certificate-container glass-card shadow-lg">
+    <div class="certificate-header text-center mb-5">
+      <div class="eyebrow">Certificate of Participation</div>
+      <h1>{{ event.title }}</h1>
+      <p class="text-muted mt-3">This certificate is issued to recognize active participation in the event.</p>
+    </div>
+
+    <div class="certificate-body p-4">
+      <div class="certificate-panel text-center mb-4">
+        <span class="certificate-label">Presented to</span>
+        <h2>{{ student_name }}</h2>
+      </div>
+
+      <div class="certificate-copy text-center mb-4">
+        <p class="mb-2">For successfully participating in</p>
+        <div class="certificate-event">{{ event.title }}</div>
+        <p class="text-muted mt-3">Held on <strong>{{ event.start_at|date:"d M Y" }}</strong> at <strong>{{ event.venue }}</strong>.</p>
+      </div>
+
+      <div class="certificate-grid mb-4">
+        <div>
+          <span class="label">Certificate ID</span>
+          <strong>{{ certificate_id }}</strong>
+        </div>
+        <div>
+          <span class="label">Issued on</span>
+          <strong>{{ current_date }}</strong>
+          <strong>{{ organizer_name }}</strong>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="certificate-actions text-center mt-4">
+      <a class="btn btn-primary btn-hero me-3" href="{% url 'events:certificate' event.id %}">
+        <i class="bi bi-download"></i> Download PDF
+      </a>
+      <a class="btn btn-outline-light" href="{% url 'events:event_detail' event.id %}">
+        <i class="bi bi-arrow-left"></i> Back to event
+      </a>
+    </div>
+  </div>
+</div>
+<style>
+.certificate-page { min-height: calc(100vh - 160px); display: flex; align-items: center; justify-content: center; padding: 3rem 1rem; }
+.certificate-container { width: min(900px, 100%); padding: 2rem; border-radius: 36px; overflow: hidden; position: relative; }
+.certificate-header .eyebrow { display: inline-flex; text-transform: uppercase; letter-spacing: 0.28em; font-size: 0.78rem; color: rgba(100, 240, 255, 0.9); margin-bottom: 1rem; }
+.certificate-header h1 { font-size: clamp(2.6rem, 4vw, 3.8rem); margin-bottom: 0.5rem; background: linear-gradient(135deg, #8ae8ff, #9b78ff 55%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.certificate-header p { max-width: 640px; margin: 0 auto; color: rgba(248, 251, 255, 0.74); }
+.certificate-body { border-radius: 32px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); }
+.certificate-panel { padding: 2rem 1rem; }
+.certificate-panel .certificate-label { display: block; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.72); margin-bottom: 1rem; }
+.certificate-panel h2 { margin: 0; font-size: 2.8rem; line-height: 1.05; }
+.certificate-copy { padding: 0 1rem; }
+.certificate-copy p { color: rgba(248, 251, 255, 0.78); }
+.certificate-event { display: inline-flex; align-items: center; justify-content: center; padding: 1rem 1.25rem; border-radius: 999px; background: rgba(100, 240, 255, 0.12); color: #e8f7ff; font-weight: 700; margin: 1rem 0; }
+.certificate-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; padding: 1.25rem; }
+.certificate-grid .label { display: block; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.8rem; margin-bottom: 0.35rem; }
+.certificate-signature { display: flex; justify-content: flex-end; padding: 1rem 1rem 0; }
+.certificate-signature span { display: block; color: rgba(255,255,255,0.72); }
+.certificate-signature strong { display: block; font-size: 1rem; margin-top: 0.35rem; }
+.certificate-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.85rem; }
+@media (max-width: 768px) { .certificate-grid { grid-template-columns: 1fr; } }
+</style>
+{% endblock %}

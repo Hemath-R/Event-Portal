@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block title %}College Event Portal · Student Signup{% endblock %}
+{% block content %}
+<div class="signup-page">
+  <div class="signup-shell glass-card">
+    <div class="signup-header">
+      <span class="eyebrow">Online Event Registration</span>
+      <h1>Student Signup</h1>
+      <p>Register securely for campus events with a premium neon glass interface.</p>
+    </div>
+    <form class="signup-form" autocomplete="off">
+      <label class="form-label" for="full-name">Full Name</label>
+      <input id="full-name" type="text" class="form-control" placeholder="Jane Doe" />
+
+      <label class="form-label" for="email">Email</label>
+      <input id="email" type="email" class="form-control" placeholder="jane.doe@example.com" />
+
+      <button type="button" class="btn btn-primary btn-hero">Send OTP</button>
+      <p class="note-text">OTP will be sent to your email for secure event registration.</p>
+    </form>
+    <div class="particle-layer">
+      <span class="particle p1"></span>
+      <span class="particle p2"></span>
+      <span class="particle p3"></span>
+      <span class="particle p4"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+.signup-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem 4rem;
+  position: relative;
+}
+
+.signup-shell {
+  width: min(620px, 100%);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.35);
+}
+
+.signup-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 55%);
+  pointer-events: none;
+}
+
+.signup-shell::after {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at top left, rgba(0, 212, 255, 0.18), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(106, 92, 255, 0.16), transparent 22%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.signup-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  color: #00d4ff;
+  font-size: 0.78rem;
+  margin-bottom: 1rem;
+}
+
+.signup-shell h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  line-height: 1.02;
+}
+
+.signup-shell p {
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.8;
+}
+
+.signup-form {
+  display: grid;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.form-label {
+  color: rgba(255, 255, 255, 0.84);
+  font-weight: 600;
+}
+
+.form-control {
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  padding: 1.15rem 1.2rem;
+  transition: all 0.25s ease;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: rgba(0, 212, 255, 0.85);
+  box-shadow: 0 0 0 0.3rem rgba(0, 212, 255, 0.16);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.btn-hero {
+  width: 100%;
+  border-radius: 999px;
+  padding: 1.1rem 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #00d4ff 0%, #6a5cff 40%, #7258ff 100%);
+  box-shadow: 0 24px 80px rgba(0, 212, 255, 0.24);
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.btn-hero:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+.note-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+}
+
+.particle-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.55;
+  filter: blur(2px);
+}
+
+.p1 {
+  width: 100px;
+  height: 100px;
+  top: -15px;
+  right: -10px;
+  background: rgba(0, 212, 255, 0.16);
+}
+
+.p2 {
+  width: 72px;
+  height: 72px;
+  bottom: 60px;
+  left: 22%;
+  background: rgba(106, 92, 255, 0.16);
+}
+
+.p3 {
+  width: 42px;
+  height: 42px;
+  top: 28%;
+  left: -10px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.p4 {
+  width: 62px;
+  height: 62px;
+  bottom: 10px;
+  right: 18%;
+  background: rgba(0, 212, 255, 0.10);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-shell {
+  animation: fadeInUp 0.9s ease-out forwards;
+}
+
+@media (max-width: 768px) {
+  .signup-page { min-height: calc(100vh - 100px); padding: 1.5rem 0.8rem 2.5rem; }
+  .signup-shell { width: 100%; padding: 2rem; }
+  .signup-shell h1 { font-size: 2.6rem; }
+}
+</style>
+
+{% endblock %}
+

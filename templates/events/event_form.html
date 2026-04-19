@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · College Event Portal{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+    <div class="card glass-panel border-0 shadow-sm overflow-hidden">
+      <div class="card-body p-4">
+        <h3 class="mb-1">{{ title }}</h3>
+        <p class="text-muted mb-4">Add event details, set capacity and registration deadline, and upload a hero image for the event.</p>
+        <form method="post" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="form-label">Title</label>
+              {{ form.title }}
+              <div class="text-danger small">{{ form.title.errors }}</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Capacity</label>
+              {{ form.capacity }}
+              <div class="text-danger small">{{ form.capacity.errors }}</div>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              {{ form.description }}
+              <div class="text-danger small">{{ form.description.errors }}</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Category</label>
+              {{ form.category }}
+              <div class="text-danger small">{{ form.category.errors }}</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Venue</label>
+              {{ form.venue }}
+              <div class="text-danger small">{{ form.venue.errors }}</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Poster (optional)</label>
+              {{ form.poster }}
+              <div class="text-danger small">{{ form.poster.errors }}</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Start date/time</label>
+              {{ form.start_at }}
+              <div class="text-danger small">{{ form.start_at.errors }}</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Registration deadline</label>
+              {{ form.registration_deadline }}
+              <div class="text-danger small">{{ form.registration_deadline.errors }}</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Time limit (minutes)</label>
+              {{ form.duration_minutes }}
+              <div class="text-danger small">{{ form.duration_minutes.errors }}</div>
+            </div>
+            <div class="col-md-8">
+              <label class="form-label">Organizer (optional)</label>
+              {{ form.organizer }}
+              <div class="text-danger small">{{ form.organizer.errors }}</div>
+              <div class="form-text">Admin can assign organizer. Organizer-created events auto-assign themselves.</div>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+              <div class="form-check">
+                {{ form.is_published }}
+                <label class="form-check-label">Published</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 mt-4 flex-wrap">
+            <button class="btn btn-primary"><i class="bi bi-save"></i> Save event</button>
+            <a class="btn btn-outline-light" href="{% url 'events:organizer_events' %}">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+{% block title %}Online Event Registration · Student Signup{% endblock %}
+{% block content %}
+<div class="signup-page">
+  <div class="background-particles">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="signup-shell glass-card">
+    <div class="signup-panel">
+      <div class="panel-copy">
+        <span class="eyebrow">Student Signup</span>
+        <h1>Online Event Registration</h1>
+        <p>Enter your email to receive a secure OTP and join the next premium campus event.</p>
+      </div>
+      <form method="post" novalidate class="signup-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-row">
+          <div class="form-group">
+            <label for="{{ form.full_name.id_for_label }}" class="form-label">Full name</label>
+            {{ form.full_name }}
+            <div class="field-error">{{ form.full_name.errors }}</div>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.email.id_for_label }}" class="form-label">Email address</label>
+            {{ form.email }}
+            <div class="field-error">{{ form.email.errors }}</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-hero w-100">
+          Send OTP
+        </button>
+      </form>
+      <p class="signup-note">* OTP will be sent to your email and printed in the local server console for secure verification.</p>
+    </div>
+    <div class="signup-visual">
+      <div class="visual-card">
+        <div class="visual-title">Event Pulse</div>
+        <div class="visual-grid">
+          <div class="visual-chip">TECH FEST</div>
+          <div class="visual-chip secondary">CULTURAL NIGHT</div>
+        </div>
+        <div class="visual-window">
+          <div class="window-top">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="window-content">
+            <div class="window-side"></div>
+            <div class="window-main">
+              <p class="window-label">Live attendee feed</p>
+              <div class="stat-row"><span>142</span><small>Registered</small></div>
+              <div class="stat-row"><span>18</span><small>Events</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="visual-blob"></div>
+    </div>
+  </div>
+</div>
+<style>
+.signup-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 4rem;
+  position: relative;
+}
+.signup-shell {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.95fr;
+  gap: 2.5rem;
+  padding: 2rem;
+  border-radius: 38px;
+  overflow: hidden;
+  position: relative;
+}
+.signup-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  pointer-events: none;
+}
+.panel-copy {
+  max-width: 520px;
+}
+.eyebrow {
+  display: inline-flex;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.78rem;
+  color: rgba(100, 240, 255, 0.9);
+  margin-bottom: 1rem;
+}
+.signup-shell h1 {
+  font-size: clamp(2.8rem, 4vw, 4.2rem);
+  line-height: 1.02;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #8ae8ff, #8c7cff 65%, #a572ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.signup-shell p {
+  color: rgba(248, 251, 255, 0.78);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+.signup-form {
+  margin-top: 2rem;
+}
+.form-row {
+  display: grid;
+  gap: 1.25rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.form-control {
+  width: 100%;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #fff;
+  padding: 1.15rem 1.2rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: all 0.25s ease;
+}
+.form-control:focus {
+  border-color: rgba(100, 240, 255, 0.95);
+  background: rgba(255,255,255,0.13);
+  box-shadow: 0 0 0 0.3rem rgba(100, 240, 255, 0.18);
+}
+.form-label { color: rgba(248, 251, 255, 0.82); font-weight: 600; }
+.field-error { color: #ff8b9d; font-size: 0.92rem; min-height: 1.1em; }
+.btn-hero {
+  margin-top: 1rem;
+  padding: 1.1rem 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.signup-note {
+  margin-top: 1.25rem;
+  color: rgba(248, 251, 255, 0.72);
+  font-size: 0.96rem;
+}
+.signup-visual {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.visual-card {
+  width: 100%;
+  min-height: 520px;
+  padding: 2rem;
+  border-radius: 36px;
+  background: linear-gradient(180deg, rgba(57, 76, 139, 0.96), rgba(19, 31, 69, 0.88));
+  border: 1px solid rgba(112, 187, 255, 0.18);
+  box-shadow: 0 40px 110px rgba(28, 80, 170, 0.28);
+  position: relative;
+  overflow: hidden;
+}
+.visual-card::after {
+  content: '';
+  position: absolute;
+  top: 6%;
+  right: -12%;
+  width: 220px;
+  height: 220px;
+  background: rgba(116, 189, 255, 0.12);
+  border-radius: 50%;
+  filter: blur(38px);
+}
+.visual-title {
+  color: rgba(255,255,255,0.9);
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 1.8rem;
+}
+.visual-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-bottom: 2rem;
+}
+.visual-chip {
+  padding: 0.85rem 1.2rem;
+  border-radius: 999px;
+  background: rgba(100, 242, 255, 0.16);
+  color: #d8f8ff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.visual-chip.secondary { background: rgba(133, 110, 255, 0.18); }
+.visual-window {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 28px;
+  padding: 1.5rem 1.4rem;
+  box-shadow: inset 0 0 0 1px rgba(150, 190, 255, 0.06);
+}
+.window-top {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.45rem;
+}
+.window-top span {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+}
+.window-top span:nth-child(1) { background: #ff7f9b; }
+.window-top span:nth-child(2) { background: #ffd874; }
+.window-top span:nth-child(3) { background: #84d8ff; }
+.window-content {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 1.3rem;
+  align-items: start;
+}
+.window-side {
+  min-height: 130px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(100, 240, 255, 0.18), rgba(120, 126, 255, 0.08));
+}
+.window-main {
+  padding: 1rem;
+  border-radius: 24px;
+  background: rgba(5, 15, 37, 0.9);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.window-label {
+  color: rgba(248, 251, 255, 0.72);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+.stat-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 0.95rem;
+}
+.stat-row span {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f8fbff;
+}
+.stat-row small {
+  color: rgba(248, 251, 255, 0.62);
+  font-size: 0.9rem;
+}
+.visual-blob {
+  position: absolute;
+  bottom: -40px;
+  left: -20px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(88, 240, 255, 0.14);
+  filter: blur(56px);
+}
+@media (max-width: 992px) {
+  .signup-shell { grid-template-columns: 1fr; }
+  .signup-visual { order: -1; }
+  .visual-card { min-height: 420px; }
+}
+@media (max-width: 680px) {
+  .signup-page { padding: 2rem 1rem 3rem; }
+  .signup-shell { padding: 1.5rem; gap: 1.5rem; }
+  .signup-shell h1 { font-size: 2.6rem; }
+}
+</style>
+{% endblock %}

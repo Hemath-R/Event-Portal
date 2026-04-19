@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Admin Login · College Event Portal{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-shell glass-card admin-shell">
+    <div class="admin-left">
+      <div class="auth-copy">
+        <span class="eyebrow">Admin Portal</span>
+        <h2>Secure administrator access</h2>
+        <p>Enter the admin credentials to manage events, review registrations, and keep the system running smoothly.</p>
+      </div>
+      {% if error %}
+        <div class="notification error-notice">
+          <span class="notice-icon">⚠️</span>
+          <span>{{ error }}</span>
+        </div>
+      {% endif %}
+      <form method="post" novalidate class="auth-form">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username" class="form-label">Administrator Username</label>
+          <input name="username" id="username" class="form-control" value="" placeholder="hemath" required>
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Admin Password</label>
+          <input name="password" id="password" type="password" class="form-control" placeholder="Enter admin password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-hero w-100">Access Admin Dashboard</button>
+      </form>
+      <p class="signup-note">This is a custom admin portal for event management, separate from Django admin.</p>
+    </div>
+    <div class="admin-right">
+      <div class="admin-visual">
+        <div class="admin-panel-item">Live metrics</div>
+        <div class="admin-panel-item secondary">Verified access</div>
+        <div class="admin-status">System status: <strong>Online</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.admin-shell { grid-template-columns: 1.1fr 0.9fr; }
+.admin-left { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; }
+.admin-right { display: flex; align-items: center; justify-content: center; }
+.admin-visual {
+  width: 100%;
+  min-height: 320px;
+  border-radius: 36px;
+  background: linear-gradient(180deg, rgba(93, 118, 255, 0.12), rgba(25, 38, 84, 0.92));
+  border: 1px solid rgba(99, 171, 255, 0.16);
+  padding: 2rem;
+  display: grid;
+  gap: 1rem;
+  box-shadow: 0 28px 80px rgba(28, 77, 152, 0.2);
+}
+.admin-panel-item {
+  padding: 1.1rem 1.3rem;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #f8fbff;
+  font-weight: 600;
+}
+.admin-panel-item.secondary { background: rgba(120, 78, 255, 0.14); }
+.admin-status {
+  margin-top: auto;
+  color: rgba(248, 251, 255, 0.82);
+  font-size: 0.98rem;
+}
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.2rem;
+  border-radius: 22px;
+  background: rgba(255, 97, 97, 0.12);
+  border: 1px solid rgba(255, 97, 97, 0.2);
+}
+.notice-icon { font-size: 1.2rem; }
+.signup-note { color: rgba(248, 251, 255, 0.7); margin-top: 1rem; }
+@media (max-width: 980px) { .admin-shell { grid-template-columns: 1fr; } .admin-right { order: -1; } }
+@media (max-width: 680px) { .auth-page { padding: 2rem 1rem; } .auth-shell { padding: 1.5rem; gap: 1.2rem; } }
+</style>
+{% endblock %}

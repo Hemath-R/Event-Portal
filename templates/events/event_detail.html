@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}{{ event.title }} · College Event Portal{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card card-hover shadow-sm glass-panel overflow-hidden">
+      {% if event.poster %}
+        <img class="poster" src="{{ event.poster.url }}" alt="{{ event.title }}">
+      {% else %}
+        <div class="poster" style="background: linear-gradient(180deg, rgba(5,12,42,0.35), rgba(5,12,42,0.85)), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;"></div>
+      {% endif %}
+      <div class="card-body p-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-start">
+          <div>
+            <h1 class="mb-2">{{ event.title }}</h1>
+            <p class="text-muted mb-1">{{ event.venue }} · {{ event.start_at|date:"M d, Y" }} · {{ event.start_at|time:"H:i" }}</p>
+            <p class="text-muted small mb-0">{{ event.get_category_display }} · {{ event.capacity }} seats · {{ event.seats_left }} available</p>
+          </div>
+          <div class="text-end">
+            {% if event.duration_minutes %}
+              <span class="badge bg-primary py-2 px-3">{{ event.duration_minutes }} min</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row g-3 mt-4">
+          <div class="col-md-4">
+            <div class="p-3 bg-white bg-opacity-10 rounded-4">
+              <div class="text-uppercase small text-secondary mb-2">Category</div>
+              <div class="fw-semibold">{{ event.get_category_display }}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 bg-white bg-opacity-10 rounded-4">
+              <div class="text-uppercase small text-secondary mb-2">Deadline</div>
+              <div class="fw-semibold">{{ event.registration_deadline|date:"M d, Y H:i" }}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 bg-white bg-opacity-10 rounded-4">
+              <div class="text-uppercase small text-secondary mb-2">Seats left</div>
+              <div class="fw-semibold">{{ event.seats_left }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h5 class="mb-2">About this event</h5>
+          <p class="text-muted">{{ event.description|linebreaksbr }}</p>
+        </div>
+
+        {% if event.rules %}
+          <div class="mt-4">
+            <h5 class="mb-3">Event rules</h5>
+            <div class="p-4 bg-white bg-opacity-10 rounded-4 text-muted">{{ event.rules|linebreaksbr }}</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card card-hover shadow-sm glass-panel">
+      <div class="card-body p-4">
+        <h5 class="mb-3">Quick actions</h5>
+
+        {% if user.is_authenticated and user.role != 'STUDENT' %}
+          <div class="d-grid gap-2 mb-4">
+            <a class="btn btn-outline-light" href="{% url 'events:event_edit' event.id %}"><i class="bi bi-pencil"></i> Edit event</a>
+            <a class="btn btn-outline-light" href="{% url 'events:attendance' event.id %}"><i class="bi bi-check2-square"></i> Attendance</a>
+            <a class="btn btn-outline-light" href="{% url 'events:feedback_summary' event.id %}"><i class="bi bi-bar-chart"></i> Feedback summary</a>
+          </div>
+        {% endif %}
+
+        {% if user.is_authenticated and user.role == 'STUDENT' %}
+          <div class="d-grid gap-2 mb-4">
+            {% if registration %}
+              <button class="btn btn-success" disabled><i class="bi bi-check-circle"></i> Already registered</button>
+            {% else %}
+              <a class="btn btn-primary" href="{% url 'events:register' event.id %}"><i class="bi bi-ticket-perforated"></i> Register now</a>
+            {% endif %}
+
+            {% if attended %}
+              <a class="btn btn-outline-light" href="{% url 'events:certificate_preview' event.id %}"><i class="bi bi-eye"></i> Preview certificate</a>
+              <a class="btn btn-outline-light" href="{% url 'events:certificate' event.id %}"><i class="bi bi-file-earmark-pdf"></i> Download certificate</a>
+            {% endif %}
+
+            {% if attended and not left_feedback %}
+              <a class="btn btn-outline-light" href="{% url 'events:feedback' event.id %}"><i class="bi bi-chat-square-text"></i> Leave feedback</a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if not user.is_authenticated %}
+          <div class="alert alert-info mb-0">
+            Please <a href="{% url 'accounts:login' %}">login</a> to register or view more actions.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

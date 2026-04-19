@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard · College Event Portal{% endblock %}
+{% block content %}
+<div class="row g-4 mb-4">
+  <div class="col-lg-4">
+    <div class="admin-profile">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
+          <i class="bi bi-person-badge-fill fs-3 text-white"></i>
+        </div>
+        <div>
+          <h4 class="mb-1">Hemath</h4>
+          <div class="text-muted small">Head admin</div>
+        </div>
+      </div>
+      <p class="text-muted mb-4">A premium admin control center to manage events, review registrations, and keep the platform running like a product-grade portal.</p>
+      <div class="d-grid gap-2">
+        <a class="btn btn-outline-light" href="{% url 'events:event_create' %}"><i class="bi bi-plus-circle"></i> Create event</a>
+        <a class="btn btn-outline-light" href="{% url 'events:organizer_events' %}"><i class="bi bi-calendar-event"></i> Manage events</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="row g-4">
+      <div class="col-sm-6 col-xl-3">
+        <div class="card glass-panel p-4 h-100">
+          <div class="text-uppercase text-secondary small mb-2">Total events</div>
+          <div class="display-6 fw-bold">{{ stats.events }}</div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <div class="card glass-panel p-4 h-100">
+          <div class="text-uppercase text-secondary small mb-2">Registrations</div>
+          <div class="display-6 fw-bold">{{ stats.registrations }}</div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <div class="card glass-panel p-4 h-100">
+          <div class="text-uppercase text-secondary small mb-2">Students</div>
+          <div class="display-6 fw-bold">{{ stats.students }}</div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <div class="card glass-panel p-4 h-100">
+          <div class="text-uppercase text-secondary small mb-2">Organizers</div>
+          <div class="display-6 fw-bold">{{ stats.organizers }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card glass-panel shadow-sm mb-4 p-4">
+  <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
+    <div>
+      <h5 class="mb-1">Event applications</h5>
+      <p class="text-muted mb-0">Search registrations by event, user, phone, or email.</p>
+    </div>
+    <form class="row gx-2 gy-2" method="get">
+      <div class="col-sm-5">
+        <input class="form-control form-control-dark" type="search" name="q" placeholder="Search applications" value="{{ search }}">
+      </div>
+      <div class="col-sm-3">
+        <input class="form-control form-control-dark" type="text" name="event" placeholder="Event name" value="{{ event_filter }}">
+      </div>
+      <div class="col-sm-3">
+        <input class="form-control form-control-dark" type="text" name="user" placeholder="Student username" value="{{ user_filter }}">
+      </div>
+      <div class="col-sm-1 d-grid">
+        <button class="btn btn-primary">Go</button>
+      </div>
+    </form>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-borderless align-middle mb-0 text-white">
+      <thead>
+        <tr class="text-secondary small text-uppercase letter-spacing-1">
+          <th>User</th>
+          <th>Email</th>
+          <th>Event</th>
+          <th>Registration date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reg in registrations %}
+          <tr class="border-top border-white border-opacity-10">
+            <td class="fw-semibold">{{ reg.name or reg.student.username }}</td>
+            <td class="text-muted small">{{ reg.student.email }}</td>
+            <td>{{ reg.event.title }}</td>
+            <td class="text-muted small">{{ reg.created_at|date:"M d, Y H:i" }}</td>
+            <td><span class="badge bg-outline-light text-white">{{ reg.get_status_display }}</span></td>
+            <td>
+              {% if reg.status == 'PENDING' %}
+                <form method="post" action="{% url 'events:mark_completed' reg.id %}" style="display: inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success btn-sm">Mark as Done</button>
+                </form>
+              {% else %}
+                <span class="text-success">Completed</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="text-center text-muted py-4">No registrations found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

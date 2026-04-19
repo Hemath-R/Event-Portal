@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Feedback summary · {{ event.title }}{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+  <div>
+    <h3 class="mb-0">Feedback summary</h3>
+    <div class="text-muted small">{{ event.title }}</div>
+  </div>
+  <a class="btn btn-outline-primary" href="{% url 'events:event_detail' event.id %}">Back to event</a>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <div class="text-muted small">Average rating</div>
+        <div class="display-6 fw-semibold">
+          {{ stats.avg|default:"-"|floatformat:1 }} / 5
+        </div>
+        <div class="text-muted small">{{ stats.count }} responses</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0">
+      <div class="table-responsive">
+        <table class="table mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Student</th>
+              <th>Rating</th>
+              <th>Comment</th>
+              <th class="text-end">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for f in feedback %}
+              <tr>
+                <td class="fw-semibold">{{ f.student.username }}</td>
+                <td><span class="badge text-bg-primary">{{ f.rating }}</span></td>
+                <td class="text-muted small">{{ f.comment|default:"—" }}</td>
+                <td class="text-muted small text-end">{{ f.created_at }}</td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="4" class="text-center py-4 text-muted">No feedback yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Manage events · College Event Portal{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+  <div>
+    <h3 class="mb-0">Manage events</h3>
+    <div class="text-muted small">Create events, mark attendance, and view feedback summaries.</div>
+  </div>
+  <a class="btn btn-primary" href="{% url 'events:event_create' %}"><i class="bi bi-plus-circle"></i> Create event</a>
+</div>
+
+<div class="card shadow-sm border-0">
+  <div class="table-responsive">
+    <table class="table mb-0 align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Event</th>
+          <th>Date</th>
+          <th>Seats</th>
+          <th>Organizer</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in events %}
+          <tr>
+            <td class="fw-semibold">{{ e.title }}</td>
+            <td class="text-muted small">{{ e.start_at }}</td>
+            <td><span class="badge text-bg-primary">{{ e.seats_left }} left</span></td>
+            <td class="text-muted small">
+              {% if e.organizer %}{{ e.organizer.username }}{% else %}-{% endif %}
+            </td>
+            <td class="text-end">
+              <div class="btn-group btn-group-sm">
+                <a class="btn btn-outline-primary" href="{% url 'events:event_detail' e.id %}">Open</a>
+                <a class="btn btn-outline-secondary" href="{% url 'events:attendance' e.id %}">Attendance</a>
+                <a class="btn btn-outline-secondary" href="{% url 'events:feedback_summary' e.id %}">Feedback</a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="text-center py-4 text-muted">No events yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Verify OTP · College Event Portal{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="mb-1">Verify OTP</h3>
+        <p class="text-muted mb-4">
+          We sent a 6-digit OTP to <span class="fw-semibold">{{ email }}</span>.
+          {% if full_name %}Signing in as <span class="fw-semibold">{{ full_name }}</span>.{% endif %}
+          If email delivery is not configured, use the terminal OTP printed by Django.
+        </p>
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {{ form.email }}
+          {{ form.non_field_errors }}
+          <div class="mb-3">
+            <label class="form-label">OTP code</label>
+            {{ form.code }}
+            <div class="text-danger small">{{ form.code.errors }}</div>
+          </div>
+          <button class="btn btn-primary w-100">Verify</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
